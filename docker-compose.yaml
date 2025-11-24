@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+    command: --bind_ip_all
+
+  service-user:
+    build: ./backend/service-user
+    container_name: service-user
+    restart: always
+    ports:
+      - "30001:3000"
+    environment:
+      - MONGODB_URI=mongodb://root:example@mongodb:27017/service_user?authSource=admin
+      - PORT=3000
+      - JWT_SECRET=supersecretkey
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:
