@@ -20,7 +20,7 @@ const AddDoctor = () => {
     const [address1, setAddress1] = useState('')
     const [address2, setAddress2] = useState('')
 
-    const { backendUrl, aToken, backendUrl_admin_service} = useContext(AdminContext)
+    const { backendUrl, aToken, backendUrl_auth_service} = useContext(AdminContext)
 
     const onSubmitHandler = async (event) =>{
         event.preventDefault()
@@ -50,7 +50,7 @@ const AddDoctor = () => {
             })
 
             // const {data} = await axios.post(backendUrl + '/api/admin/add-doctor', formData, {headers:{aToken}})
-            const {data} = await axios.post(backendUrl_admin_service + '/admin/add-doctor', formData, {headers:{aToken}})
+            const {data} = await axios.post(backendUrl_auth_service + '/add-doctor', formData, {headers:{aToken}})
 
 
             if(data.success){

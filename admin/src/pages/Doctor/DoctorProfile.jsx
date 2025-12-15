@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 
 const DoctorProfile = () => {
 
-  const {dToken,profileData, setProfileData, getProfileData , backendUrl_doctor_service  } = useContext(DoctorContext)
+  const {dToken,profileData, setProfileData, getProfileData , backendUrl_auth_service  } = useContext(DoctorContext)
   const {currency}= useContext(AppContext)
 
   const [isEdit, setIsEdit] = useState(false)
@@ -21,7 +21,7 @@ const DoctorProfile = () => {
 
       }
 
-      const {data} = await axios.post(backendUrl_doctor_service+ '/doctor/update-profile', updateData, {headers:{dToken}})
+      const {data} = await axios.post(backendUrl_auth_service+ '/update-doctor-profile', updateData, {headers:{dToken}})
 
       if(data.success){
         toast.success(data.message)

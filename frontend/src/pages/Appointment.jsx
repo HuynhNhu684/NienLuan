@@ -9,7 +9,7 @@ import axios from 'axios'
 export const Appointment = () => {
 
   const {docId} = useParams()
-  const {doctors,currencySymbol, backendUrl,backendUrl_user_service, token, getDoctorsData } = useContext(AppContext)
+  const {doctors,currencySymbol, backendUrl,backendUrl_booking_service, token, getDoctorsData } = useContext(AppContext)
   const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
   const navigate = useNavigate()
@@ -121,7 +121,7 @@ export const Appointment = () => {
 
       const slotDate = day +"_"+ month + "_" +year
 
-      const {data} = await axios.post(backendUrl_user_service+ '/user/book-appointment', {docId, slotDate, slotTime}, {headers:{token}})
+      const {data} = await axios.post(backendUrl_booking_service+ '/book-appointment', {docId, slotDate, slotTime}, {headers:{token}})
       if(data.success){
         toast.success(data.message)
         getDoctorsData()
@@ -180,7 +180,7 @@ export const Appointment = () => {
               <p className='text-sm text-gray-500 max-w-[700px] mt-1'>{docInfo.about}</p>
             </div>
             <p className='text-gray-500 font-medium mt-4'>
-              Appointment fee: <span className=''>{docInfo.fees} {currencySymbol}</span>
+              Appointment fee: <span className=''>{currencySymbol}{docInfo.fees}</span>
             </p>
           </div>
         </div>

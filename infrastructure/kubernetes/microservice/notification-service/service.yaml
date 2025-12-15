@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: microservices
+spec:
+  selector:
+    app: notification-service
+  ports:
+    - protocol: TCP
+      port: 3003          # Cổng ảo trong nội bộ K8s (các service khác gọi qua cổng này)
+      targetPort: 3003   # Cổng thật của container (phải khớp với code Node.js)
+  type: ClusterIP        # Chỉ cho phép gọi nội bộ (không public ra ngoài internet)

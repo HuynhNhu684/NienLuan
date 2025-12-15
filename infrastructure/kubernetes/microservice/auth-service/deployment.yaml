@@ -1,3 +1,27 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: auth-service
+#   namespace: microservices
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: auth-service
+#   template:
+#     metadata:
+#       labels:
+#         app: auth-service
+#     spec:
+#       nodeName: desktop-control-plane
+#       containers:
+#         - name: auth-service
+#           image: huynhnhub2204958/auth-service:latest
+#           imagePullPolicy: Always
+#           env:
+#             - name: MONGODB_URI
+#               value: "mongodb://mongo:27017/auth_db"
+ 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,10 +37,21 @@ spec:
       labels:
         app: auth-service
     spec:
+      # Lựa chọn Node Worker cụ thể
+      nodeSelector:
+        kubernetes.io/hostname: my-dev-cluster-worker 
+        # kubernetes.io/hostname: desktop-worker 
+
       containers:
+        # Bắt đầu định nghĩa Container
         - name: auth-service
-          image: kimngoc20/auth-service:latest
-          env:
+          image: huynhnhub2204958/auth-service:latest
+          
+          # Đặt PORTS và ENV BÊN TRONG CONTAINER NÀY (Căn lề sâu hơn containers)
+          ports:
+            - containerPort: 3000
+          
+          env: # Cũng nằm cùng cấp với ports, bên trong container
             - name: MONGODB_URI
               value: "mongodb://mongo:27017/auth_db"
- 
+              

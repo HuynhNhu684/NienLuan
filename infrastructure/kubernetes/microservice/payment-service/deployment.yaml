@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: my-dev-cluster-worker2
+      containers:
+        - name: payment-service
+          # Đổi tên image theo tài khoản docker hub của bạn cho đồng bộ
+          image: huynhnhub2204958/payment-service:latest 
+          imagePullPolicy: Always # Ưu tiên lấy ảnh local nếu có, đỡ phải push lên Hub
+
+          ports:
+            - containerPort: 3002
+
+          env:
+            - name: PORT
+              value: "3002"
+            
+            # Kết nối MongoDB (dùng service 'mongo' như file auth của bạn)
+            - name: MONGODB_URI
+              value: "mongodb://mongo:27017/auth_db"
+
+            - name: JWT_SECRET
+              value: "phongkham"
+
+            # URL gọi sang Booking Service (Giao tiếp nội bộ K8s)
+            # Cấu trúc: http://<tên-service-booking>.<namespace>:80/api/appointment
+            - name: BOOKING_SERVICE_URL
+              # value: "http://appointment-service.microservices:80/api/appointment"
+              value: "http://kong-kong-proxy.kong.svc.cluster.local:80/appointment"
+            
+
+            # Cấu hình PayPal Sandbox (Copy từ .env của bạn vào đây)
+            - name: PAYPAL_API_URL
+              value: "https://api-m.sandbox.paypal.com"
+            
+            # 👇 Thay Client ID thật của bạn vào đây
+            - name: PAYPAL_CLIENT_ID
+              value: "ARaDkZj07UbeveqFejxHCy-kWvnBVbZqOYOOYzu6EzeKxvOxDeobWaeeVdoyKmiSk-2u34UwseNgcmtb"
+            
+            # 👇 Thay Secret Key thật của bạn vào đây
+            - name: PAYPAL_CLIENT_SECRET
+              value: "ENnujkGfYs3xBjzX_krGDrwhRjjJfKunmyeEVXRNOEd_ChcjG1na54Tqnn66fMl-xJ5Cm2axYarM7SwA"
+

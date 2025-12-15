@@ -1,0 +1,11 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+ name: kong-consumer             # Unique name for this consumer
+ namespace: microservices
+ annotations:
+  kubernetes.io/ingress.class: kong
+username: auth-service                # Username for this consumer
+custom_id: kong-consumer-1             # Unique ID for this consumer
+credentials:
+ - user1-apikey

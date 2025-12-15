@@ -10,7 +10,7 @@ const DoctorContextProvider = (props) =>{
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const backendUrl_auth_service =  import.meta.env.VITE_BACKEND_URL_AUTH_SERVICE
-    const backendUrl_doctor_service =  import.meta.env.VITE_BACKEND_URL_DOCTOR_SERVICE
+    const backendUrl_booking_service =  import.meta.env.VITE_BACKEND_URL_BOOKING_SERVICE
 
 
     const [dToken , setDToken] = useState(localStorage.getItem('dToken')?localStorage.getItem('dToken'): '')
@@ -21,7 +21,7 @@ const DoctorContextProvider = (props) =>{
 
     const getAppointments =async()=>{
         try{
-            const {data} = await  axios.get(backendUrl_doctor_service+ '/doctor/appointments', {headers:{dToken}})
+            const {data} = await  axios.get(backendUrl_booking_service+ '/doc-appointments', {headers:{dToken}})
             if(data.success){
                 setAppointments(data.appointments)
                 console.log(data.appointments)
@@ -38,7 +38,7 @@ const DoctorContextProvider = (props) =>{
     const completeAppointment = async(appointmentId)=>{
 
         try{
-            const {data} = await axios.post(backendUrl_doctor_service +'/doctor/complete-appointment',{appointmentId}, {headers:{dToken}})
+            const {data} = await axios.post(backendUrl_booking_service +'/complete-appointment',{appointmentId}, {headers:{dToken}})
             if(data.success){
                 toast.success(data.message)
                 getAppointments()
@@ -55,7 +55,7 @@ const DoctorContextProvider = (props) =>{
         const cancelAppointment = async(appointmentId)=>{
 
         try{
-            const {data} = await axios.post(backendUrl_doctor_service +'/doctor/cancel-appointment',{appointmentId}, {headers:{dToken}})
+            const {data} = await axios.post(backendUrl_booking_service +'/doc-cancel-appointment',{appointmentId}, {headers:{dToken}})
             if(data.success){
                 toast.success(data.message)
                 getAppointments()
@@ -71,7 +71,7 @@ const DoctorContextProvider = (props) =>{
 
     const getDashData = async ()=>{
         try{
-            const {data} = await axios.get (backendUrl_doctor_service+ '/doctor/dashboard', {headers:{dToken}})
+            const {data} = await axios.get (backendUrl_auth_service+ '/doctorDashboard', {headers:{dToken}})
             if(data.success){
                 setDashData(data.dashData)
                 console.log(data,dashData)
@@ -86,7 +86,7 @@ const DoctorContextProvider = (props) =>{
 
     const getProfileData = async ()=>{
         try{ 
-            const {data} = await axios.get(backendUrl_doctor_service+'/doctor/profile', {headers:{dToken}})
+            const {data} = await axios.get(backendUrl_auth_service+'/doctor-profile', {headers:{dToken}})
             if (data.success){
                 setProfileData(data.profileData)
                 console.log(data.profileData)
@@ -107,7 +107,9 @@ const DoctorContextProvider = (props) =>{
         dashData, setDashData, getDashData,
         profileData, setProfileData, 
         getProfileData,
-        backendUrl_doctor_service
+        backendUrl_booking_service,
+        backendUrl_auth_service, 
+
 
 
     }

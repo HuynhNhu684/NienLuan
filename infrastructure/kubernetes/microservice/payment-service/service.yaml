@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: microservices
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - port: 3002          # Cổng ảo của Service (các service khác gọi vào cổng này)
+      targetPort: 3002   # Cổng thật mà code Node.js của bạn đang chạy

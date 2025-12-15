@@ -10,11 +10,11 @@ export const AppContext = createContext()
 const AppContextProvider = (props) => {
 
 
-    const currencySymbol = 'VND'
+    const currencySymbol = '$'
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const backendUrl_auth_service =  import.meta.env.VITE_BACKEND_URL_AUTH_SERVICE
     const backendUrl_doctor_service =  import.meta.env.VITE_BACKEND_URL_DOCTOR_SERVICE
-    const backendUrl_user_service =  import.meta.env.VITE_BACKEND_URL_USER_SERVICE
+    const backendUrl_booking_service =  import.meta.env.VITE_BACKEND_URL_BOOKING_SERVICE
 
 
     const [doctors , setDoctors] = useState([])
@@ -26,7 +26,7 @@ const AppContextProvider = (props) => {
     const getDoctorsData = async () =>{
         try{
 
-            const{data} = await axios.get(backendUrl_doctor_service+ '/doctor/list')
+            const{data} = await axios.get(backendUrl_auth_service+ '/list')
             if(data.success){
                 setDoctors(data.doctors)
 
@@ -42,7 +42,7 @@ const AppContextProvider = (props) => {
 
     const loadUserProfileData = async() =>{
         try{
-            const {data} = await axios.get(backendUrl_user_service + '/user/get-profile', {headers:{token}})
+            const {data} = await axios.get(backendUrl_auth_service + '/user-profile', {headers:{token}})
             if(data.success){
                 setUserData(data.userData)
             }else{
@@ -66,7 +66,7 @@ const AppContextProvider = (props) => {
         loadUserProfileData,
         backendUrl_auth_service,
         backendUrl_doctor_service,
-        backendUrl_user_service,
+        backendUrl_booking_service,
 
     }
 

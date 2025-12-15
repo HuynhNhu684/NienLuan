@@ -15,6 +15,8 @@ const AdminContextProvider = (props) =>{
     const backendUrl_auth_service =  import.meta.env.VITE_BACKEND_URL_AUTH_SERVICE
     const backendUrl_admin_service =  import.meta.env.VITE_BACKEND_URL_ADMIN_SERVICE
     const backendUrl_doctor_service =  import.meta.env.VITE_BACKEND_URL_DOCTOR_SERVICE
+    const backendUrl_booking_service =  import.meta.env.VITE_BACKEND_URL_BOOKING_SERVICE
+
 
 
 
@@ -22,7 +24,7 @@ const AdminContextProvider = (props) =>{
 
         try{
 
-            const {data} = await axios.post( backendUrl_admin_service + '/admin/all-doctors', {}, {headers:{aToken}})
+            const {data} = await axios.post( backendUrl_auth_service + '/all-doctors', {}, {headers:{aToken}})
             if(data.success){
                 setDoctors(data.doctors)
                 console.log(data.doctors)
@@ -39,7 +41,7 @@ const AdminContextProvider = (props) =>{
 
         try{
 
-            const {data} =await axios.post(backendUrl_admin_service+ '/admin/change-availability', {docId}, {headers:{aToken}})
+            const {data} =await axios.post(backendUrl_auth_service+ '/change-availability', {docId}, {headers:{aToken}})
             if(data.success){
                 toast.success(data.message)
                 getAllDoctors()
@@ -57,7 +59,7 @@ const AdminContextProvider = (props) =>{
         
         try{
 
-            const {data} = await axios.get(backendUrl_admin_service+'/admin/appointments',{headers:{aToken}})
+            const {data} = await axios.get(backendUrl_booking_service+'/ad-appointments',{headers:{aToken}})
 
             if(data.success){
                 setAppointments(data.appointments)
@@ -77,7 +79,7 @@ const AdminContextProvider = (props) =>{
         
         try{
 
-            const {data} = await axios.post(backendUrl_admin_service+ '/admin/cancel-appointment',{appointmentId},{headers:{aToken}})
+            const {data} = await axios.post(backendUrl_booking_service+ '/ad-cancel-appointment',{appointmentId},{headers:{aToken}})
 
             if(data.success){
                 toast.success(data.message)
@@ -96,7 +98,7 @@ const AdminContextProvider = (props) =>{
         try{
 
             //const {data} = await axios.get(backendUrl + '/api/admin/dashboard', {headers:{aToken}})
-            const {data} = await axios.get(backendUrl_admin_service + '/admin/dashboard', {headers:{aToken}})
+            const {data} = await axios.get(backendUrl_auth_service + '/adminDashboard', {headers:{aToken}})
 
             if(data.success){
                 setDashData(data.dashData)
@@ -121,7 +123,8 @@ const AdminContextProvider = (props) =>{
         dashData, getDashData,
         backendUrl_auth_service,
         backendUrl_admin_service,
-        backendUrl_doctor_service
+        backendUrl_doctor_service, 
+        backendUrl_booking_service
     }
 
     return (
